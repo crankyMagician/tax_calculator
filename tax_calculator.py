@@ -43,8 +43,12 @@ def calculate_taxes(annual_salary, months_worked, write_offs):
     total_taxes = federal_tax + state_tax + local_tax + social_security_tax + medicare_tax
 
     # Remaining Paychecks
-    total_paychecks = 12 / 12 * 26
-    remaining_paychecks = total_paychecks - (months_worked / 12 * 26)
+    total_paychecks = 26  # Total paychecks in a year assuming bi-weekly pay
+    remaining_paychecks = total_paychecks - (months_worked / 12 * total_paychecks)
+
+    # Ensure remaining_paychecks is not zero to avoid division by zero
+    if remaining_paychecks == 0:
+        remaining_paychecks = 1
 
     # Savings per remaining paycheck
     paid_taxes = total_taxes / 12 * months_worked
@@ -52,6 +56,7 @@ def calculate_taxes(annual_salary, months_worked, write_offs):
     savings_per_paycheck = remaining_taxes / remaining_paychecks
 
     return total_taxes, savings_per_paycheck
+
 
 def main():
     # User inputs
@@ -65,6 +70,7 @@ def main():
     # Output results
     print(f"\nTotal estimated taxes for the year: ${total_taxes:,.2f}")
     print(f"Amount to save from each remaining paycheck: ${savings_per_paycheck:,.2f}")
+
 
 if __name__ == "__main__":
     main()
